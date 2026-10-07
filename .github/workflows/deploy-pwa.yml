@@ -1,0 +1,65 @@
+# Genera y publica la PWA en GitHub Pages.
+# Se ejecuta solo cuando: cambia el frontend, cambia backend-version.json (lo actualiza ortega-backend
+# cuando publicas una nueva versión en Apps Script), a mano desde la pestaña Actions, o una vez al día (revisión).
+name: Publicar PWA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "frontend/**"
+      - "scripts/**"
+      - "backend-version.json"
+      - ".github/workflows/deploy-pwa.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "17 11 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Generar la PWA desde frontend/
+        run: node scripts/build.mjs
+      - name: Verificar archivos, manifiestos y service workers
+        run: node scripts/verify.mjs
+      - name: Verificar que el backend de Apps Script responde
+        run: node scripts/verify.mjs --backend
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+  comprobar:
+    needs: publicar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/build.mjs
+      - name: Comprobar el sitio publicado
+        run: node scripts/verify.mjs --sitio "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
