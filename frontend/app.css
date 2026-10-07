@@ -60,15 +60,11 @@ body{overflow:hidden}
 @media (prefers-color-scheme:dark){.reservar #carga{background:#10292c}}
 #carga .ver{font-size:11px;opacity:.6;letter-spacing:.06em}
 
-/* ---- iPhone instalado (pantalla completa) ----
-   1) El portal empieza DEBAJO de la hora/batería (antes quedaba tapado y se veía opaco).
-   2) El portal llega hasta el borde de abajo (antes quedaba una franja vacía).
-   La franja de la hora toma el color del encabezado del portal. */
+/* ---- App instalada: pantalla completa en iPhone y Android ----
+   El encabezado del portal llega hasta arriba (detrás de la hora) y el portal llega hasta el borde de abajo.
+   En iPhone, app.js mide la pantalla real y fija el alto exacto (el iPhone calcula mal 100% y 100vh). */
+#sa{position:fixed;top:0;left:0;width:0;height:env(safe-area-inset-top,0px);visibility:hidden;pointer-events:none}
 @media all and (display-mode: standalone){
   html,body{background:#183033}
-  #portal{
-    top:env(safe-area-inset-top,0px); bottom:auto;
-    height:calc(100vh - env(safe-area-inset-top,0px));
-    height:calc(100lvh - env(safe-area-inset-top,0px));
-  }
+  #portal{top:env(safe-area-inset-top,0px);bottom:auto;height:calc(100vh - env(safe-area-inset-top,0px))}
 }
