@@ -6,6 +6,20 @@
   var carga = document.getElementById("carga");
   var sinred = document.getElementById("sinred");
 
+  // 0) La sesión y lo último que viste se guardan en la app (no solo en el marco de Google, que el teléfono puede borrar).
+  //    Solo se aceptan mensajes del portal de Google Apps Script (*.googleusercontent.com) y solo claves "osc_".
+  var PFX = "osc_app_" + (C.RUTA || "") + "_", ORIGEN_OK = /^https:\/\/[a-z0-9-]+\.googleusercontent\.com$/;
+  window.addEventListener("message", function (e) {
+    var d = e.data; if (!d || typeof d !== "object" || !ORIGEN_OK.test(e.origin)) return;
+    if (d.osc === "guardar" && typeof d.k === "string" && d.k.indexOf("osc_") === 0) {
+      try { if (d.v == null) localStorage.removeItem(PFX + d.k); else localStorage.setItem(PFX + d.k, String(d.v)); } catch (x) {}
+    } else if (d.osc === "pedir") {
+      var out = {};
+      try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf(PFX) === 0) out[k.slice(PFX.length)] = localStorage.getItem(k); } } catch (x) {}
+      try { e.source.postMessage({ osc: "datos", datos: out }, e.origin); } catch (x) {}
+    }
+  });
+
   // 1) Service worker (ícono, pantalla de carga y aviso sin conexión)
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js", { scope: "./" }).catch(function () {});
