@@ -43,7 +43,7 @@ for (const a of apps) {
 
   fs.writeFileSync(path.join(d, "manifest.webmanifest"), JSON.stringify({
     name: a.nombre, short_name: a.corto, description: a.descripcion,
-    id: "./", start_url: "./", scope: "./", display: "standalone", orientation: "portrait",
+    id: "./", start_url: "./", scope: "./", display: "standalone", orientation: "any",   // "any": en iPad, tabletas y computadora la app gira y se puede agrandar
     background_color: a.fondo, theme_color: a.tema, lang: "es",
     icons: [
       { src: `iconos/${a.icono}-192.png`, sizes: "192x192", type: "image/png", purpose: "any" },
