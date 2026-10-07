@@ -1,0 +1,4 @@
+{
+  "portal": "https://script.google.com/macros/s/AKfycbzXPmDQVobzyQfGC-DiYvNHn7c1a0vcF4cYL29ILvTByMbuFm0f6GmxmCgjXLpudJMO/exec",
+  "nota": "URL /exec de la implementación web de Apps Script (backend). Si algún día cambia la implementación, cambia SOLO esta línea."
+}

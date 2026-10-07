@@ -1,0 +1,14 @@
+[
+  { "carpeta": "limpiadoras", "modo": "limpiadora", "ruta": "limpiadora=1", "icono": "limpiadora",
+    "nombre": "Ortega · Limpiadoras", "corto": "Ortega", "descripcion": "Portal de limpiadoras de Ortega Service Cleaning",
+    "etiqueta": "Portal de limpiadoras", "fondo": "#F7F2E9", "tema": "#234B50", "clase": "",
+    "tituloEsperado": "Portal", "tarjeta": "Soy limpiadora", "detalle": "Mis citas, aceptar, llegar y terminar" },
+  { "carpeta": "admin", "modo": "admin", "ruta": "admin=1", "icono": "admin",
+    "nombre": "Ortega · Administrador", "corto": "Ortega Admin", "descripcion": "Panel de administrador de Ortega Service Cleaning",
+    "etiqueta": "Panel de administrador", "fondo": "#173063", "tema": "#173063", "clase": "admin",
+    "tituloEsperado": "Portal", "tarjeta": "Administrador", "detalle": "Calendario, asignar, pagos y reservas" },
+  { "carpeta": "reservar", "modo": "reservar", "ruta": "reservar=1", "icono": "reservar",
+    "nombre": "Ortega · Reservar limpieza", "corto": "Ortega Reservar", "descripcion": "Reserva una limpieza con Ortega Service Cleaning",
+    "etiqueta": "Reservar una limpieza", "fondo": "#F7F2E9", "tema": "#234B50", "clase": "reservar",
+    "tituloEsperado": "Reservar", "tarjeta": "Reservar una limpieza", "detalle": "Para clientes" }
+]

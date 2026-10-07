@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{nombre}}</title>
+<meta name="description" content="{{descripcion}}">
+<meta name="osc-version" content="{{version}}">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="{{tema}}">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="{{corto}}">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="iconos/{{icono}}-180.png">
+<link rel="icon" href="iconos/favicon-64.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body data-modo="{{modo}}" class="{{clase}}">
+<div id="carga" role="status" aria-label="Abriendo">
+  <img class="logo-claro" src="iconos/logo-navy.png" alt="Ortega Service Cleaning">
+  <img class="logo-oscuro" src="iconos/logo-blanco.png" alt="Ortega Service Cleaning">
+  <div class="puntos"><i></i><i></i><i></i></div>
+  <small>{{etiqueta}}</small>
+  <small class="ver">{{version}}</small>
+</div>
+<div id="sinred">Sin internet · se reconecta sola</div>
+<iframe id="portal" title="{{etiqueta}}" allow="geolocation; clipboard-read; clipboard-write; camera; microphone; fullscreen"></iframe>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
