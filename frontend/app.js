@@ -23,7 +23,22 @@
     pedido = true; frame.src = url;
   }
 
-  // 3) Aviso cuando se va el internet; al volver, recarga el portal
+  // 3) Pantalla completa exacta en iPhone instalado (el iPhone calcula mal el alto con la barra translúcida)
+  function ajustarAlto() {
+    if (!frame || window.navigator.standalone !== true) return;          // solo iPhone/iPad desde la pantalla de inicio
+    var sa = document.getElementById("sa"), arriba = sa ? sa.offsetHeight : 0;
+    var horizontal = window.innerWidth > window.innerHeight;
+    var alto = horizontal ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
+    if (horizontal) arriba = 0;
+    frame.style.top = arriba + "px";
+    frame.style.bottom = "auto";
+    frame.style.height = Math.max(alto - arriba, window.innerHeight - arriba) + "px";
+  }
+  ajustarAlto();
+  window.addEventListener("resize", ajustarAlto);
+  window.addEventListener("orientationchange", function () { setTimeout(ajustarAlto, 300); });
+
+  // 4) Aviso cuando se va el internet; al volver, recarga el portal
   function red() {
     if (!sinred) return;
     if (navigator.onLine) {
