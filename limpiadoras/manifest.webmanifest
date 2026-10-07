@@ -1,0 +1,33 @@
+{
+  "name": "Ortega · Limpiadoras",
+  "short_name": "Ortega",
+  "description": "Portal de limpiadoras de Ortega Service Cleaning",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F2E9",
+  "theme_color": "#234B50",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "iconos/limpiadora-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "iconos/limpiadora-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "iconos/limpiadora-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
