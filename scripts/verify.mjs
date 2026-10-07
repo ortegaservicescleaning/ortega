@@ -16,7 +16,7 @@ const arg = process.argv.slice(2);
 
 function revisarDist() {
   if (!fs.existsSync(DIST)) return mal("No existe dist/. Ejecuta primero: node scripts/build.mjs");
-  const refs = (html) => [...html.matchAll(/(?:src|href)="([^"#:]+)"/g)].map((m) => m[1]).filter((r) => !r.startsWith("javascript"));
+  const refs = (html) => [...html.matchAll(/(?:src|href)="([^"#:]+)"/g)].map((m) => m[1].split("?")[0]).filter((r) => !r.startsWith("javascript"));
   const raiz = fs.readFileSync(path.join(DIST, "index.html"), "utf8");
   for (const r of refs(raiz)) if (!fs.existsSync(path.join(DIST, r.endsWith("/") ? r + "index.html" : r))) mal(`index.html → falta ${r}`);
   for (const a of apps) {
@@ -31,7 +31,7 @@ function revisarDist() {
     const sw = fs.readFileSync(path.join(d, "sw.js"), "utf8");
     if (/\{\{\w+\}\}/.test(sw + html)) mal(`${a.carpeta}: quedó una plantilla sin llenar`);
     const lista = JSON.parse(sw.match(/var ARCHIVOS = (\[.*?\]);/s)[1]);
-    for (const f of lista) if (!fs.existsSync(path.join(d, f === "./" ? "index.html" : f))) mal(`${a.carpeta}: el service worker guarda ${f} y no existe`);
+    for (const f of lista.map((x) => x.split("?")[0])) if (!fs.existsSync(path.join(d, f === "./" ? "index.html" : f))) mal(`${a.carpeta}: el service worker guarda ${f} y no existe`);
     const cfg = fs.readFileSync(path.join(d, "config.js"), "utf8");
     if (!cfg.includes(config.portal) || !cfg.includes(`"RUTA": "${a.ruta}"`)) mal(`${a.carpeta}: config.js no apunta al backend o a la ruta correcta`);
     if (/CLAVE|SYNC_KEY|TOKEN|SECRET|PASSWORD/i.test(cfg + html + sw)) mal(`${a.carpeta}: parece contener un secreto`);
