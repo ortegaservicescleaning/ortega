@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="iconos/{{icono}}-180.png">
 <link rel="icon" href="iconos/favicon-64.png">
-<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="app.css?v={{build}}">
 </head>
 <body data-modo="{{modo}}" class="{{clase}}">
 <div id="carga" role="status" aria-label="Abriendo">
@@ -27,7 +27,7 @@
 <div id="sa" aria-hidden="true"></div>
 <div id="sinred">Sin internet · se reconecta sola</div>
 <iframe id="portal" title="{{etiqueta}}" allow="geolocation; clipboard-read; clipboard-write; camera; microphone; fullscreen"></iframe>
-<script src="config.js"></script>
-<script src="app.js"></script>
+<script src="config.js?v={{build}}"></script>
+<script src="app.js?v={{build}}"></script>
 </body>
 </html>
