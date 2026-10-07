@@ -23,16 +23,22 @@
     pedido = true; frame.src = url;
   }
 
-  // 3) Pantalla completa exacta en iPhone instalado (el iPhone calcula mal el alto con la barra translúcida)
+  // 3) Pantalla completa exacta en iPhone instalado (el iPhone calcula mal el alto con la barra translúcida
+  //    y recorta lo que esté fijo; la página toma el alto real de la pantalla y el portal va dentro)
   function ajustarAlto() {
     if (!frame || window.navigator.standalone !== true) return;          // solo iPhone/iPad desde la pantalla de inicio
     var sa = document.getElementById("sa"), arriba = sa ? sa.offsetHeight : 0;
     var horizontal = window.innerWidth > window.innerHeight;
     var alto = horizontal ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
     if (horizontal) arriba = 0;
+    alto = Math.max(alto, window.innerHeight);
+    var raiz = document.documentElement;
+    raiz.style.height = alto + "px"; document.body.style.height = alto + "px";
+    frame.style.position = "absolute";
     frame.style.top = arriba + "px";
     frame.style.bottom = "auto";
-    frame.style.height = Math.max(alto - arriba, window.innerHeight - arriba) + "px";
+    frame.style.height = (alto - arriba) + "px";
+    window.scrollTo(0, 0);
   }
   ajustarAlto();
   window.addEventListener("resize", ajustarAlto);
