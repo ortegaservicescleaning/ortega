@@ -59,3 +59,16 @@ body{overflow:hidden}
 .reservar #carga{background:var(--crema)}
 @media (prefers-color-scheme:dark){.reservar #carga{background:#10292c}}
 #carga .ver{font-size:11px;opacity:.6;letter-spacing:.06em}
+
+/* ---- iPhone instalado (pantalla completa) ----
+   1) El portal empieza DEBAJO de la hora/batería (antes quedaba tapado y se veía opaco).
+   2) El portal llega hasta el borde de abajo (antes quedaba una franja vacía).
+   La franja de la hora toma el color del encabezado del portal. */
+@media all and (display-mode: standalone){
+  html,body{background:#183033}
+  #portal{
+    top:env(safe-area-inset-top,0px); bottom:auto;
+    height:calc(100vh - env(safe-area-inset-top,0px));
+    height:calc(100lvh - env(safe-area-inset-top,0px));
+  }
+}
