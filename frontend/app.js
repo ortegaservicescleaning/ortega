@@ -13,7 +13,7 @@
 
   // 2) Abrir el portal correcto
   if (frame && C.PORTAL) {
-    var url = C.PORTAL + "?" + C.RUTA;
+    var url = C.PORTAL + "?" + C.RUTA + "&app=1";               // app=1: el portal usa toda la pantalla (iPad, tabletas, computadora)
     var listo = false;
     var quitar = function () { if (listo) return; listo = true; carga.classList.add("fuera"); setTimeout(function () { carga.remove(); }, 600); };
     var pedido = false;                                          // ignora el "load" del iframe vacío (about:blank)
@@ -27,10 +27,14 @@
   //    y recorta lo que esté fijo; la página toma el alto real de la pantalla y el portal va dentro)
   function ajustarAlto() {
     if (!frame || window.navigator.standalone !== true) return;          // solo iPhone/iPad desde la pantalla de inicio
+    var iphone = /iPhone|iPod/.test(navigator.userAgent);
     var sa = document.getElementById("sa"), arriba = sa ? sa.offsetHeight : 0;
     var horizontal = window.innerWidth > window.innerHeight;
-    var alto = horizontal ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
-    if (horizontal) arriba = 0;
+    var largo = Math.max(screen.width, screen.height), corto = Math.min(screen.width, screen.height);
+    // iPad en pantalla dividida, Slide Over o Stage Manager: la ventana es más chica que la pantalla → se usa la ventana
+    var completa = Math.abs(window.innerWidth - (horizontal ? largo : corto)) < 4;
+    var alto = completa ? (horizontal ? corto : largo) : window.innerHeight;
+    if (horizontal && iphone) arriba = 0;                                 // el iPhone acostado no muestra la hora; el iPad sí
     alto = Math.max(alto, window.innerHeight);
     var raiz = document.documentElement;
     raiz.style.height = alto + "px"; document.body.style.height = alto + "px";
