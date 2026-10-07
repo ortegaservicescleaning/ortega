@@ -62,9 +62,12 @@ body{overflow:hidden}
 
 /* ---- App instalada: pantalla completa en iPhone y Android ----
    El encabezado del portal llega hasta arriba (detrás de la hora) y el portal llega hasta el borde de abajo.
-   En iPhone, app.js mide la pantalla real y fija el alto exacto (el iPhone calcula mal 100% y 100vh). */
+   iPhone con barra translúcida: el sistema cree que la pantalla mide "alto - barra de la hora" y recorta lo que
+   esté fijo (position:fixed). Por eso la página mide la pantalla real y el portal va dentro con position:absolute.
+   app.js pone el alto exacto en píxeles. */
 #sa{position:fixed;top:0;left:0;width:0;height:env(safe-area-inset-top,0px);visibility:hidden;pointer-events:none}
 @media all and (display-mode: standalone){
-  html,body{background:#183033}
-  #portal{top:env(safe-area-inset-top,0px);bottom:auto;height:calc(100vh - env(safe-area-inset-top,0px))}
+  html{height:calc(100% + env(safe-area-inset-top,0px));background:#183033;overflow:hidden;overscroll-behavior:none}
+  body{height:100%;background:#183033;overflow:hidden;overscroll-behavior:none}
+  #portal{position:absolute;top:env(safe-area-inset-top,0px);left:0;width:100%;bottom:0;height:auto}
 }
