@@ -54,10 +54,10 @@ for (const a of apps) {
 
   fs.writeFileSync(path.join(d, "index.html"), llenar(shell, {
     nombre: esc(a.nombre), descripcion: esc(a.descripcion), tema: a.tema, corto: esc(a.corto), icono: a.icono,
-    modo: a.modo, clase: a.clase, etiqueta: esc(a.etiqueta), version: esc(version),
+    modo: a.modo, clase: a.clase, etiqueta: esc(a.etiqueta), version: esc(version), build: sha,
   }));
 
-  const archivos = ["./", "./index.html", "./offline.html", "./app.css", "./app.js", "./config.js", "./manifest.webmanifest",
+  const archivos = ["./", "./index.html", "./offline.html", `./app.css?v=${sha}`, `./app.js?v=${sha}`, `./config.js?v=${sha}`, "./manifest.webmanifest",
     ...iconos.filter((i) => !i.includes("maskable")).map((i) => "./iconos/" + i)];
   fs.writeFileSync(path.join(d, "sw.js"), llenar(sw, {
     version, cache: `osc-${a.carpeta}-b${backV}-${sha}`, prefijo: `osc-${a.carpeta}-`, archivos: JSON.stringify(archivos),
