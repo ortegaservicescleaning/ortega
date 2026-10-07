@@ -6,7 +6,7 @@ var PREFIJO = "{{prefijo}}";   // solo borra cachés viejas de ESTA app (las 3 a
 var ARCHIVOS = {{archivos}};
 
 self.addEventListener("install", function (e) {
-  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ARCHIVOS); }).then(function () { return self.skipWaiting(); }));
+  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ARCHIVOS.map(function (u) { return new Request(u, { cache: "reload" }); })); }).then(function () { return self.skipWaiting(); }));
 });
 
 self.addEventListener("activate", function (e) {
@@ -19,7 +19,7 @@ self.addEventListener("fetch", function (e) {
   var u = new URL(e.request.url);
   if (u.origin !== self.location.origin) return;               // Apps Script (backend): directo a internet
   if (e.request.mode === "navigate") {                          // páginas: primero internet; si no hay → copia guardada u offline
-    e.respondWith(fetch(e.request).then(function (r) {
+    e.respondWith(fetch(new Request(e.request.url, { cache: "no-cache", credentials: "same-origin" })).then(function (r) {
       var copia = r.clone(); caches.open(CACHE).then(function (c) { c.put(e.request, copia); }); return r;
     }).catch(function () {
       return caches.match(e.request).then(function (r) { return r || caches.match("./offline.html"); });
