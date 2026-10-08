@@ -13,6 +13,10 @@
     var d = e.data; if (!d || typeof d !== "object" || !ORIGEN_OK.test(e.origin)) return;
     if (d.osc === "guardar" && typeof d.k === "string" && d.k.indexOf("osc_") === 0) {
       try { if (d.v == null) localStorage.removeItem(PFX + d.k); else localStorage.setItem(PFX + d.k, String(d.v)); } catch (x) {}
+    } else if (d.osc === "ir" && (d.q === "misreservas=1" || d.q === "reservar=1") && frame && C.PORTAL) {
+      // "Mis reservas" y "Reservar" se abren dentro de la app (misma memoria: la reserva guardada se ve)
+      try { e.source.postMessage({ osc: "yendo" }, e.origin); } catch (x) {}
+      frame.src = C.PORTAL + "?" + d.q + "&app=1";
     } else if (d.osc === "pedir") {
       var out = {};
       try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf(PFX) === 0) out[k.slice(PFX.length)] = localStorage.getItem(k); } } catch (x) {}
@@ -27,7 +31,9 @@
 
   // 2) Abrir el portal correcto
   if (frame && C.PORTAL) {
-    var url = C.PORTAL + "?" + C.RUTA + "&app=1";               // app=1: el portal usa toda la pantalla (iPad, tabletas, computadora)
+    var ruta = C.RUTA;
+    if (/[?&]misreservas=1(&|$)/.test(location.search) && /reservar/.test(String(C.RUTA))) ruta = "misreservas=1";   // enlace de los mensajes: …/reservar/?misreservas=1
+    var url = C.PORTAL + "?" + ruta + "&app=1";                 // app=1: el portal usa toda la pantalla (iPad, tabletas, computadora)
     var listo = false;
     var quitar = function () { if (listo) return; listo = true; carga.classList.add("fuera"); setTimeout(function () { carga.remove(); }, 600); };
     var pedido = false;                                          // ignora el "load" del iframe vacío (about:blank)
